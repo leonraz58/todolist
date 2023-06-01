@@ -1,49 +1,47 @@
 import React from "react";
+import {filterValuesType} from "./App";
 
 type PropsType = {
-    truck: string;
+    title: string;
     truck2?: number;
     tasks: Array<TaskType>
+    removeTask: (idtodelete: number) => void
+    changeFilter: (value: filterValuesType) => void
 }
 
-type TaskType = {
+export type TaskType = {
     id: number
     title: string
     isDone: boolean
 }
 
-
-
 export const Todolist = (props: PropsType) => {
+
     return (
         <div>
-            <h3>{props.truck}</h3>
+            <h3>{props.title}</h3>
             <h3>{props.truck2}</h3>
-            <h1>{props.tasks[0].title}</h1>
             <div>
-                <input />
                 <button>+</button>
             </div>
             <ul>
                 {props.tasks.map((el: TaskType) => {
                     return (
                         <li>
-                            <input type="checkbox" checked={el.isDone}/> <span>{el.title}</span>
+                            <input type="checkbox" checked={el.isDone}/>
+                            <span>{el.title}</span>
+                            <button onClick={()=>{props.removeTask(el.id)}}>x</button>
                         </li>
                     )
                 })}
                 
             </ul>
             <div>
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
+                <button onClick={()=>{props.changeFilter("all")}}>All</button>
+                <button onClick={()=>{props.changeFilter("active")}}>Active</button>
+                <button onClick={()=>{props.changeFilter("completed")}}>Completed</button>
             </div>
         </div>
     )
 
 }
-/* это заменили мапом
-<li><input type="checkbox" checked={props.tasks[0].isDone} /> <span>{props.tasks[0].title}</span></li>
-<li><input type="checkbox" checked={props.tasks[1].isDone} /> <span>{props.tasks[1].title}</span></li>
-<li><input type="checkbox" checked={props.tasks[2].isDone} /> <span>{props.tasks[2].title}</span></li>*/
