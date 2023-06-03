@@ -1,23 +1,23 @@
 import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
-
+import {v1} from 'uuid';
 const truck1name = 'What to learn1';
 
 export type filterValuesType = "all" | "completed" | "active"
 function App() {
 
     let [tasks, setTasks] = useState<Array<TaskType>>([
-        {id: 1, title: "HTML&CSS", isDone: true},
-        {id: 2, title: "JS", isDone: true},
-        {id: 3, title: "ReactJS", isDone: false},
-        {id: 4, title: "Python", isDone: false}
+        {id: v1(), title: "HTML&CSS", isDone: true},
+        {id: v1(), title: "JS", isDone: true},
+        {id: v1(), title: "ReactJS", isDone: false},
+        {id: v1(), title: "Python", isDone: false}
     ]);
     let [filter, setFilter] = useState<filterValuesType>("all")
     /*let tasks = arr[0];
     let setTasks = arr[1];*/
 
-    function removeTask(idtodelete: number){
+    function removeTask(idtodelete: string){
         let filteredTasks = tasks.filter(t => t.id !== idtodelete)
         setTasks(filteredTasks);
     }

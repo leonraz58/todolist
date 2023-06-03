@@ -5,12 +5,12 @@ type PropsType = {
     title: string;
     truck2?: number;
     tasks: Array<TaskType>
-    removeTask: (idtodelete: number) => void
+    removeTask: (idtodelete: string) => void
     changeFilter: (value: filterValuesType) => void
 }
 
 export type TaskType = {
-    id: number
+    id: string
     title: string
     isDone: boolean
 }
@@ -27,7 +27,7 @@ export const Todolist = (props: PropsType) => {
             <ul>
                 {props.tasks.map((el: TaskType) => {
                     return (
-                        <li>
+                        <li key = {el.id}>
                             <input type="checkbox" checked={el.isDone}/>
                             <span>{el.title}</span>
                             <button onClick={()=>{props.removeTask(el.id)}}>x</button>
