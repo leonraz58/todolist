@@ -26,7 +26,7 @@ export const Todolist = (props: PropsType) => {
             props.addTask(newTaskTitle);
             setNewTaskTitle('');
         }}
-    const addTaski = () => {
+    const onAddTaskHandler = () => {
         props.addTask(newTaskTitle)
         setNewTaskTitle('');
     }
@@ -44,7 +44,7 @@ export const Todolist = (props: PropsType) => {
                        onChange={onNewTitleChangeHandler}
                        onKeyPress={onKeyPressHandler}
                 />
-                <button onClick={addTaski}
+                <button onClick={onAddTaskHandler}
                 >+</button>
             </div>
             <ul>
