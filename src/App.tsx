@@ -37,8 +37,8 @@ function App() {
         if (task) {
             task.isDone = isDone;
         }
-        let copy = [...tasks]
-        setTasks(copy)
+        //let copy = [...tasks]
+        setTasks([...tasks])
     }
 
     let tasksForTodolist = tasks

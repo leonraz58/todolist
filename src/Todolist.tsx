@@ -28,6 +28,9 @@ export const Todolist = (props: PropsType) => {
             setNewTaskTitle('');
         }}
     const onAddTaskHandler = () => {
+        if (newTaskTitle.trim() === '') {
+            return;
+        }
         props.addTask(newTaskTitle)
         setNewTaskTitle('');
     }
