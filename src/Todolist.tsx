@@ -77,7 +77,7 @@ export const Todolist = (props: PropsType) => {
                     }
 
                     return (
-                        <li key={el.id}>
+                        <li key={el.id} className={el.isDone?"is-done":""}>
                             <input type="checkbox"
                                    checked={el.isDone}
                                    onChange={onChangeHandler}
