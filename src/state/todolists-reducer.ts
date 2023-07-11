@@ -22,6 +22,15 @@ export const todolistsReducer = (state: Array<TodolistType>, action: ActionType)
             }]
         }
 
+        case 'CHANGE-TODOLIST-TITLE': {
+            const todolist = state.find(tl => tl.id === action.id)
+            if (todolist) {
+                todolist.title = action.title
+                //setTodolists([...todolists])
+            }
+            return [...state]
+        }
+
         default:
             throw new Error('I don\'t understand this type')
     }
