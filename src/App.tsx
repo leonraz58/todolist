@@ -10,7 +10,7 @@ const truck1name = 'What to learn1';
 
 export type filterValuesType = "all" | "completed" | "active"
 
-type TodolistType = {
+export type TodolistType = {
     id: string,
     title: string,
     filter: filterValuesType
