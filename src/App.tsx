@@ -8,12 +8,12 @@ import Menu from "@mui/icons-material/Menu";
 
 const truck1name = 'What to learn1';
 
-export type filterValuesType = "all" | "completed" | "active"
+export type FilterValuesType = "all" | "completed" | "active"
 
 export type TodolistType = {
     id: string,
     title: string,
-    filter: filterValuesType
+    filter: FilterValuesType
 }
 
 type TaskStateType = {
@@ -70,7 +70,7 @@ function App() {
         setTasksObj({...tasksObj})
     }
 
-    function changeFilter(value: filterValuesType, todolistId: string) {
+    function changeFilter(value: FilterValuesType, todolistId: string) {
         let todolist = todolists.find(tl => tl.id === todolistId)
         if (todolist) {
             todolist.filter = value

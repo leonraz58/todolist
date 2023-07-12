@@ -1,9 +1,39 @@
-import {TodolistType} from "../App";
+import {FilterValuesType, TodolistType} from "../App";
 import {v1} from "uuid";
 
-type ActionType = {
-    type: string
-    [key: string]: any
+export type RemoveTodolistActionType = {
+    type: 'REMOVE-TODOLIST',
+    id: string
+}
+export type AddTodolistActionType = {
+    type: 'ADD-TODOLIST'
+    title: string
+}
+export type ChangeTodolistTitleActionType = {
+    type: 'CHANGE-TODOLIST-TITLE'
+    id: string
+    title: string
+}
+export type ChangeTodolistFilterActionType = {
+    type: 'CHANGE-TODOLIST-FILTER'
+    id: string
+    filter: FilterValuesType
+}
+type ActionType = RemoveTodolistActionType | AddTodolistActionType |  ChangeTodolistTitleActionType | ChangeTodolistFilterActionType
+
+export const removeTodolistsAC = (todolistId:string): RemoveTodolistActionType => {
+    return {type: "REMOVE-TODOLIST", id: todolistId}
+}
+export const AddTodolistsAC = (title:string): AddTodolistActionType => {
+    return {type: "ADD-TODOLIST", title: title}
+}
+
+export const changeTodolistsAC = (id: string, title:string): ChangeTodolistTitleActionType => {
+    return {type: "CHANGE-TODOLIST-TITLE", id: id, title: title}
+}
+
+export const changeTodolistsFilterAC = (id: string, filter:FilterValuesType): ChangeTodolistFilterActionType => {
+    return {type: "CHANGE-TODOLIST-FILTER", id: id, filter: filter}
 }
 
 // меня вызовут и дадут мне стейт (почти всегда объект)
@@ -26,6 +56,15 @@ export const todolistsReducer = (state: Array<TodolistType>, action: ActionType)
             const todolist = state.find(tl => tl.id === action.id)
             if (todolist) {
                 todolist.title = action.title
+                //setTodolists([...todolists])
+            }
+            return [...state]
+        }
+
+        case 'CHANGE-TODOLIST-FILTER': {
+            const todolist = state.find(tl => tl.id === action.id)
+            if (todolist) {
+                todolist.filter = action.filter
                 //setTodolists([...todolists])
             }
             return [...state]
