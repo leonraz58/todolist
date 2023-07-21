@@ -6,15 +6,16 @@ export type RemoveTaskActionType = {
     taskId: string
     todolistId: string
 }
-export type Action2Type = {
-    type: '2'
+export type AddTaskActionType = {
+    type: 'ADD-TASK'
     title: string
+    todolistId: string
 }
 
-type ActionType = RemoveTaskActionType | Action2Type
+type ActionType = RemoveTaskActionType | AddTaskActionType
 
-export const tasksReducer = (state: TasksStateType, action: ActionType):TasksStateType => {
-    switch (action.type){
+export const tasksReducer = (state: TasksStateType, action: ActionType): TasksStateType => {
+    switch (action.type) {
         case 'REMOVE-TASK': {
             const stateCopy = {...state}
             const tasks = state[action.todolistId]
@@ -22,18 +23,26 @@ export const tasksReducer = (state: TasksStateType, action: ActionType):TasksSta
             stateCopy[action.todolistId] = filteredTasks
             return stateCopy
         }
-        case '2': {
-            return {...state}
+        case 'ADD-TASK': {
+            const stateCopy = {...state}
+            const tasks = stateCopy[action.todolistId]
+            const newTask = {id: v1(), title: action.title, isDone: false};
+            const newTasks = [newTask, ...tasks]
+            stateCopy[action.todolistId] = newTasks
+            return stateCopy
         }
         default:
-            throw new Error('I dont understand this type' )
+            throw new Error('I dont understand this type')
     }
 
 
 }
- export const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskActionType => {
-     return {type: 'REMOVE-TASK', taskId, todolistId}
- }
+export const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskActionType => {
+    return {type: 'REMOVE-TASK', taskId, todolistId}
+}
+export const addTaskAC = (title: string, todolistId: string): AddTaskActionType => {
+    return {type: 'ADD-TASK', title, todolistId}
+}
 
 // export const removeTodolistsAC = (todolistId:string): RemoveTodolistActionType => {
 //     return {type: "REMOVE-TODOLIST", id: todolistId}
