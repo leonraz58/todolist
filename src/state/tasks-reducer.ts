@@ -1,5 +1,6 @@
 import {FilterValuesType, TasksStateType, TodolistType} from "../App";
 import {v1} from "uuid";
+import {AddTodolistActionType} from "./todolists-reducer";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -26,7 +27,9 @@ export type ChangeTaskTitleActionType = {
     todolistId: string
 }
 
-type ActionType = RemoveTaskActionType | AddTaskActionType | ChangeTaskStatusActionType | ChangeTaskTitleActionType
+
+
+type ActionType = RemoveTaskActionType | AddTaskActionType | ChangeTaskStatusActionType | ChangeTaskTitleActionType | AddTodolistActionType
 
 export const tasksReducer = (state: TasksStateType, action: ActionType): TasksStateType => {
     switch (action.type) {
@@ -64,6 +67,13 @@ export const tasksReducer = (state: TasksStateType, action: ActionType): TasksSt
             }
             return stateCopy
         }
+
+        case "ADD-TODOLIST" :{
+            const stateCopy = {...state}
+            stateCopy[action.todolistId] = []
+            return stateCopy
+        }
+
         default:
             throw new Error('I dont understand this type')
     }
@@ -85,17 +95,3 @@ export const changeTaskTitleAC = (taskId: string, title: string, todolistId: str
     return {type: 'CHANGE-TASK-TITLE', taskId, title, todolistId}
 }
 
-// export const removeTodolistsAC = (todolistId:string): RemoveTodolistActionType => {
-//     return {type: "REMOVE-TODOLIST", id: todolistId}
-// }
-// export const addTodolistsAC = (title:string): AddTodolistActionType => {
-//     return {type: "ADD-TODOLIST", title: title}
-// }
-//
-// export const changeTodolistsAC = (id: string, title:string): ChangeTodolistTitleActionType => {
-//     return {type: "CHANGE-TODOLIST-TITLE", id: id, title: title}
-// }
-//
-// export const changeTodolistsFilterAC = (id: string, filter:FilterValuesType): ChangeTodolistFilterActionType => {
-//     return {type: "CHANGE-TODOLIST-FILTER", id: id, filter: filter}
-// }
