@@ -22,7 +22,7 @@ export type ChangeTodolistFilterActionType = {
 }
 type ActionType = RemoveTodolistActionType | AddTodolistActionType |  ChangeTodolistTitleActionType | ChangeTodolistFilterActionType
 
-export const removeTodolistsAC = (todolistId:string): RemoveTodolistActionType => {
+export const removeTodolistAC = (todolistId:string): RemoveTodolistActionType => {
     return {type: "REMOVE-TODOLIST", id: todolistId}
 }
 export const addTodolistAC = (title:string): AddTodolistActionType => {
