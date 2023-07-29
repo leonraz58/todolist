@@ -1,6 +1,9 @@
 import {FilterValuesType, TodolistType} from "../App";
 import {v1} from "uuid";
 
+export let todolistId1 = v1()
+export let todolistId2 = v1()
+
 export type RemoveTodolistActionType = {
     type: 'REMOVE-TODOLIST',
     id: string
@@ -37,10 +40,15 @@ export const changeTodolistsFilterAC = (id: string, filter:FilterValuesType): Ch
     return {type: "CHANGE-TODOLIST-FILTER", id: id, filter: filter}
 }
 
+const initialState: Array<TodolistType> = [
+    {id: todolistId1, title: "What to learn", filter: "active"},
+    {id: todolistId2, title: "What to buy", filter: "completed"}
+]
+
 // меня вызовут и дадут мне стейт (почти всегда объект)
 // и инструкцию (action, тоже объект)
 // согласно прописанному type в этом action (инструкции) я поменяю state
-export const todolistsReducer = (state: Array<TodolistType>, action: ActionType):Array<TodolistType> => {
+export const todolistsReducer = (state: Array<TodolistType> = initialState, action: ActionType):Array<TodolistType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':{
             return state.filter(tl => tl.id !== action.id)
@@ -72,6 +80,7 @@ export const todolistsReducer = (state: Array<TodolistType>, action: ActionType)
         }
 
         default:
-            throw new Error('I don\'t understand this type')
+            //throw new Error('I don\'t understand this type')
+            return state
     }
 }
