@@ -30,8 +30,17 @@ export type TaskType = {
 }
 
 export const Todolist = React.memo( (props: PropsType) => {
+    console.log('todolist is rendering...')
     const dispatch = useDispatch()
     const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.id])
+
+    let tasksForTodolist = tasks
+    if (props.filter === "completed") {
+        tasksForTodolist = tasksForTodolist.filter(t => t.isDone === true)
+    }
+    if (props.filter === "active") {
+        tasksForTodolist = tasksForTodolist.filter(t => t.isDone === false)
+    }
 
     const onAllClickHandler = () => {
         props.changeFilter("all", props.id)
@@ -52,13 +61,6 @@ export const Todolist = React.memo( (props: PropsType) => {
         props.changeTodolistTitle(props.id, newTitle)
     }
 
-    let tasksForTodolist = tasks
-    if (props.filter === "completed") {
-        tasksForTodolist = tasksForTodolist.filter(t => t.isDone === true)
-    }
-    if (props.filter === "active") {
-        tasksForTodolist = tasksForTodolist.filter(t => t.isDone === false)
-    }
 
     const addTask = useCallback( (title: string) => {
         const action = addTaskAC(title, props.id)
