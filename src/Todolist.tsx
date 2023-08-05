@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
 import {FilterValuesType} from "./AppWithRedux";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -29,15 +29,9 @@ export type TaskType = {
     isDone: boolean
 }
 
-export const Todolist = (props: PropsType) => {
+export const Todolist = React.memo( (props: PropsType) => {
     const dispatch = useDispatch()
     const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.id])
-
-
-
-
-
-
 
     const onAllClickHandler = () => {
         props.changeFilter("all", props.id)
@@ -66,6 +60,11 @@ export const Todolist = (props: PropsType) => {
         tasksForTodolist = tasksForTodolist.filter(t => t.isDone === false)
     }
 
+    const addTask = useCallback( (title: string) => {
+        const action = addTaskAC(title, props.id)
+        dispatch(action)
+    },[] )
+
     return (
         <div>
             <h3>
@@ -78,10 +77,7 @@ export const Todolist = (props: PropsType) => {
             </h3>
 
 
-            <AddItemForm addItem={(title)=>{
-                const action = addTaskAC(title, props.id)
-                dispatch(action)
-            }}/>
+            <AddItemForm addItem={addTask}/>
             <ul>
                 {tasksForTodolist.map((el: TaskType) => {
                     const onRemoveHandler = () => {
@@ -127,5 +123,5 @@ export const Todolist = (props: PropsType) => {
             </div>
         </div>
     )
-}
+})
 
