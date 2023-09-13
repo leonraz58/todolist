@@ -5,12 +5,13 @@ import * as serviceWorker from './serviceWorker';
 import AppWithRedux from './AppWithRedux';
 import {store} from './state/store';
 import {Provider} from 'react-redux';
+import App from "./App/App";
 
 const container = document.getElementById('root') as HTMLElement
 const root = createRoot(container);
 root.render(
     <Provider store={store}>
-        <AppWithRedux/>
+        <App/>
     </Provider>
 );
 
