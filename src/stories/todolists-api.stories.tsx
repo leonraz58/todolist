@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import axios from "axios";
+import {todolistsAPI} from "../api/todolist-api";
 
 export default {
     title: 'API'
@@ -17,8 +18,9 @@ export const GetTodolists = () => {
     useEffect(() => {
         // здесь мы будем делать запрос и ответ закидывать в стейт.
         // который в виде строки будем отображать в div-ке
-        let promise = axios.get("https://social-network.samuraijs.com/api/1.1/todo-lists", settings)
-        promise.then((res)=>{
+
+        todolistsAPI.getTodolists()
+            .then((res)=>{
             //debugger
             setState(res.data)
         })
@@ -28,7 +30,7 @@ export const GetTodolists = () => {
 export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        axios.post("https://social-network.samuraijs.com/api/1.1/todo-lists", {title: "Todolist ^_^"}, settings)
+        todolistsAPI.createTodolists('ololo todolist')
             .then((res)=>{
                 setState(res.data)
             })
@@ -39,7 +41,8 @@ export const CreateTodolist = () => {
 export const DeleteTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        axios.delete("https://social-network.samuraijs.com/api/1.1/todo-lists/a74f4533-60d8-46b0-ae37-827c2762ddc7", settings)
+        const todolistId = 'a74f4533-60d8-46b0-ae37-827c2762ddc7'
+        todolistsAPI.deleteTodolists(todolistId)
             .then((res)=>{
                 setState(res.data)
             })
@@ -50,7 +53,8 @@ export const DeleteTodolist = () => {
 export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        axios.put("https://social-network.samuraijs.com/api/1.1/todo-lists/2f0f21ef-12c1-498c-95a9-a2a2cf63e889", {title: "Todolist mazafaka"}, settings)
+        const todolistId = '2f0f21ef-12c1-498c-95a9-a2a2cf63e889'
+        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`, {title: "Todolist mazafaka"}, settings)
             .then((res)=>{
                 setState(res.data)
             })
