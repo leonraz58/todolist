@@ -92,7 +92,15 @@ export const todolistsAPI = {
         return promise
     },
     deleteTasks(todolistId: string, taskId: string) {
-        const promise = instance.delete(`todo-lists/${todolistId}/tasks/${taskId}`)
+        const promise = instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
+        return promise
+    },
+    createTask(todolistId: string, taskTitle: string) {
+        const promise = instance.post<ResponseType<TaskTipeR>>(`todo-lists/${todolistId}/tasks/`, {title: taskTitle})
+        return promise
+    },
+    updateTask(todolistId: string, taskId: string, model: UpdateTaskType) {
+        const promise = instance.put<ResponseType<TaskTipeR>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
         return promise
     },
 }
