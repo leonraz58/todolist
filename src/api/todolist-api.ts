@@ -42,11 +42,26 @@ type ResponseType<D = {}> = {
     data: D
 }
 
-export type TaskTipeR = {
+export enum TaskStatuses {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
+}
+
+export enum TaskPriorities {
+    Low = 0,
+    Middle = 1,
+    High = 2,
+    Urgently = 3,
+    Later = 4
+}
+
+export type TaskType = {
     description: string
     title: string
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
     id: string
@@ -67,7 +82,7 @@ export type UpdateTaskType = {
 type GetTasksResponse = {
     error: string | null
     totalCount: number
-    items: TaskTipeR[]
+    items: TaskType[]
 }
 
 export const todolistsAPI = {
@@ -96,11 +111,11 @@ export const todolistsAPI = {
         return promise
     },
     createTask(todolistId: string, taskTitle: string) {
-        const promise = instance.post<ResponseType<TaskTipeR>>(`todo-lists/${todolistId}/tasks/`, {title: taskTitle})
+        const promise = instance.post<ResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/`, {title: taskTitle})
         return promise
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskType) {
-        const promise = instance.put<ResponseType<TaskTipeR>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
+        const promise = instance.put<ResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
         return promise
     },
 }
