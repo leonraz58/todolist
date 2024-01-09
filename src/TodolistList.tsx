@@ -15,7 +15,7 @@ import {AnyAction} from "redux";
 import {addTaskTC, removeTaskTC, updateTaskTC} from "./state/tasks-reducer";
 import {TaskStatuses} from "./api/todolist-api";
 import Grid from "@mui/material/Grid";
-import {AddItemForm} from "./AddItemForm";
+import {AddItemForm} from "./components/AddItemForm";
 import Paper from "@mui/material/Paper";
 import {Todolist} from "./Todolist";
 import {TasksStateType} from "./App";

@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react'
-import { AddItemForm } from './AddItemForm'
-import { EditableSpan } from './EditableSpan'
+import { AddItemForm } from './components/AddItemForm'
+import { EditableSpan } from './components/EditableSpan'
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { Delete } from '@mui/icons-material';
@@ -66,7 +66,7 @@ export const Todolist = React.memo(function (props: PropsType) {
     let tasksForTodolist = props.tasks
 
     if (props.filter === 'active') {
-        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.InProgress)
+        tasksForTodolist = props.tasks.filter(t => t.status !== TaskStatuses.Completed)
     }
     if (props.filter === 'completed') {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)

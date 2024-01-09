@@ -1,5 +1,6 @@
 import {todolistsAPI, TodolistType} from "../api/todolist-api";
 import {Dispatch} from "redux";
+import {setStatusAC, SetStatusActionType} from "./app-reducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
@@ -50,10 +51,12 @@ export const setTodolistsAC = (todolists: Array<TodolistType>) => {
 
 //thunks
 export const fetchTodolistsTC = () => {
-    return (dispatch: Dispatch<ActionsType>) => {
+    return (dispatch: Dispatch<ActionsType | SetStatusActionType>) => {
+        dispatch(setStatusAC('loading'))
         todolistsAPI.getTodolists()
             .then((res)=>{
                 dispatch(setTodolistsAC(res.data))
+                dispatch(setStatusAC('succeeded'))
             })
     }
 }
@@ -66,10 +69,12 @@ export const removeTodolistsTC = (todolistId: string) => {
     }
 }
 export const addTodolistTC = (title: string) => {
-    return (dispatch: Dispatch<ActionsType>) => {
+    return (dispatch: Dispatch<ActionsType | SetStatusActionType>) => {
+        dispatch(setStatusAC('loading'))
         todolistsAPI.createTodolists (title)
             .then((res)=>{
                 dispatch(addTodolistAC(res.data.data.item))
+                dispatch(setStatusAC('succeeded'))
             })
     }
 }
