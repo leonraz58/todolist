@@ -20,8 +20,11 @@ export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
+type PropsType = {
+    demo?: boolean
+}
 
-function App() {
+function App({demo = false}: PropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>((state)=>state.app.status)
 
 
@@ -41,7 +44,7 @@ function App() {
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
-                <TodolistList/>
+                <TodolistList demo={demo}/>
             </Container>
         </div>
     );

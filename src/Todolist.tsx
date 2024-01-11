@@ -29,10 +29,10 @@ type PropsType = {
     removeTask: (taskId: string, todolistId: string) => void
     removeTodolist: (id: string) => void
     changeTodolistTitle: (id: string, newTitle: string) => void
-
+    demo?: boolean
 }
 
-export const Todolist = React.memo(function (props: PropsType) {
+export const Todolist = React.memo(function ({demo = false, ...props}: PropsType) {
     console.log('Todolist called')
 
     type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>
@@ -42,7 +42,9 @@ export const Todolist = React.memo(function (props: PropsType) {
     //const dispatch = useDispatch()
 
     useEffect(()=>{
-        dispatch(fetchTasksTC(props.todolist.id))
+        if (!demo) {
+            dispatch(fetchTasksTC(props.todolist.id))
+        }
     },[])
 
     const addTask = useCallback((title: string) => {
