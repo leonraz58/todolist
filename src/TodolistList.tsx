@@ -19,6 +19,7 @@ import {AddItemForm} from "./components/AddItemForm";
 import Paper from "@mui/material/Paper";
 import {Todolist} from "./Todolist";
 import {TasksStateType} from "./App";
+import {Redirect} from "react-router-dom";
 
 
 type PropsType = {
@@ -26,7 +27,7 @@ type PropsType = {
 }
 export const TodolistList: React.FC<PropsType> = ({demo = false}) => {
     useEffect(() => {
-        if (!demo) {
+        if (!demo || !isLoggedIn) {
             dispatch(fetchTodolistsTC())
         }
         //fetchTodolistsThunk(dispatch)
@@ -34,6 +35,10 @@ export const TodolistList: React.FC<PropsType> = ({demo = false}) => {
 
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+
+
+
     //const dispatch: any = useDispatch();
     type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>
 
@@ -80,9 +85,13 @@ export const TodolistList: React.FC<PropsType> = ({demo = false}) => {
         dispatch(thunk);
     }, [dispatch]);
 
+    if (!isLoggedIn) {
+        return <Redirect to={'/login'}/>
+    }
+
     return (<>
         <Grid container style={{padding: '20px'}}>
-            <AddItemForm addItem={addTodolist}/>
+            <AddItemForm addItem={addTodolist} disabled={todolists.length === 10}/>
         </Grid>
         <Grid container spacing={3}>
             {

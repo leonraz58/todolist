@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback, useEffect} from 'react'
 import './App.css';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,11 +9,14 @@ import Container from '@mui/material/Container';
 import {Menu} from '@mui/icons-material';
 import {TaskType} from "./api/todolist-api";
 import {TodolistList} from "./TodolistList";
-import {LinearProgress} from "@mui/material";
+import {CircularProgress, LinearProgress} from "@mui/material";
 import {ErrorSnackbar} from "./components/ErrorSnackbar";
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
-import {RequestStatusType} from "./state/app-reducer";
+import {AppRootStateType, useAppDispatch} from "./state/store";
+import {initializeTC, RequestStatusType} from "./state/app-reducer";
+import {BrowserRouter, Route} from "react-router-dom";
+import {Login} from "./features/Login/Login";
+import {logoutTC} from "./features/Login/auth-reducer";
 
 
 export type TasksStateType = {
@@ -25,28 +28,49 @@ type PropsType = {
 }
 
 function App({demo = false}: PropsType) {
-    const status = useSelector<AppRootStateType, RequestStatusType>((state)=>state.app.status)
+    const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
+    const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const dispatch = useAppDispatch()
+
+    useEffect(()=>{
+        dispatch(initializeTC())
+    },[])
+
+    const logoutHandler = useCallback(()=>{
+        dispatch(logoutTC())
+    },[])
+
+    if (!isInitialized) {
+        return <div style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}><CircularProgress/></div>
+    }
+
 
 
     return (
-        <div className="App">
-            <AppBar position="static">
-                <ErrorSnackbar/>
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <Menu/>
-                    </IconButton>
-                    <Typography variant="h6">
-                        News
-                    </Typography>
-                    <Button color="inherit">Login</Button>
-                </Toolbar>
-                {status === 'loading' && <LinearProgress/>}
-            </AppBar>
-            <Container fixed>
-                <TodolistList demo={demo}/>
-            </Container>
-        </div>
+        <BrowserRouter>
+            <div className="App">
+                <AppBar position="static">
+                    <ErrorSnackbar/>
+                    <Toolbar>
+                        <IconButton edge="start" color="inherit" aria-label="menu">
+                            <Menu/>
+                        </IconButton>
+                        <Typography variant="h6">
+                            News
+                        </Typography>
+                        {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
+                    </Toolbar>
+                    {status === 'loading' && <LinearProgress/>}
+                </AppBar>
+                <Container fixed>
+
+
+                        <Route exact path='/' render = {() => <TodolistList demo={demo}/>}/>
+                        <Route path='/login' render = {() => <Login/>}/>
+                </Container>
+            </div>
+        </BrowserRouter>
     );
 }
 
