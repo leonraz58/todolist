@@ -2,6 +2,7 @@ import {todolistsAPI, TodolistType} from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {RequestStatusType, setAppStatusAC, SetErrorActionType, SetStatusActionType} from "./app-reducer";
 import {handleServerAppError} from "../utils/error-utils";
+import {fetchTasksTC} from "./tasks-reducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
@@ -60,12 +61,20 @@ export const changeTodolistEntityStatusAC = (id: string, status: RequestStatusTy
 
 //thunks
 export const fetchTodolistsTC = () => {
-    return (dispatch: Dispatch<ActionsType | SetStatusActionType | SetErrorActionType>) => {
+    return (dispatch: any) => { //Dispatch<ActionsType | SetStatusActionType | SetErrorActionType> tofix
         dispatch(setAppStatusAC('loading'))
         todolistsAPI.getTodolists()
             .then((res)=>{
+                //debugger
                 dispatch(setTodolistsAC(res.data))
                 dispatch(setAppStatusAC('succeeded'))
+                return res.data
+            })
+            .then((todos) => {
+                //debugger
+                todos.forEach((tl)=>{
+                    dispatch(fetchTasksTC(tl.id))
+                })
             })
             .catch(error => {
                 handleServerAppError(error, dispatch)
