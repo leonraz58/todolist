@@ -1,5 +1,5 @@
 import {
-    AddTodolistActionType,
+    AddTodolistActionType, ClearDataActionType,
     RemoveTodolistActionType,
     SetTodolistsActionType
 } from './todolists-reducer';
@@ -44,6 +44,9 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         }
         case "SET-TASKS": {
             return {...state, [action.todolistId]: action.tasks}
+        }
+        case "CLEAR-DATA": {
+            return {}
         }
         default:
             return state;
@@ -156,3 +159,4 @@ type ActionsType =
     | SetTodolistsActionType
     | ReturnType<typeof setTasksAC>
     | SetStatusActionType
+    | ClearDataActionType

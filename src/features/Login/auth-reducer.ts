@@ -3,6 +3,7 @@ import {Dispatch} from "redux";
 import {authAPI, LoginParamsType} from "../../api/todolist-api";
 import {handleServerAppError} from "../../utils/error-utils";
 import {addTaskAC} from "../../state/tasks-reducer";
+import {clearDataAC} from "../../state/todolists-reducer";
 
 const initialState: InitialStateType = {
     isLoggedIn: false
@@ -49,10 +50,9 @@ export const logoutTC = () => {
         authAPI.logout()
             .then(res => {
                 if (res.data.resultCode === 0) {
-                    alert('YO')
                     dispatch(setIsLoggedInAC(false))
                     dispatch(setAppStatusAC('succeeded'))
-                    //dispatch(action)
+                    dispatch(clearDataAC())
 
                 } else {
                     handleServerAppError(res.data, dispatch)
