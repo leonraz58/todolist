@@ -1,6 +1,6 @@
 import {
     addTodolistAC,
-    AddTodolistActionType, ClearDataActionType, removeTodolistAC,
+    AddTodolistActionType, removeTodolistAC,
     RemoveTodolistActionType, setTodolistsAC,
     SetTodolistsActionType
 } from './todolists-reducer';
@@ -12,6 +12,7 @@ import {setAppErrorAC, SetErrorActionType, setAppStatusAC, SetStatusActionType} 
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {action} from "@storybook/addon-actions";
+import {clearTasksAndTodolists, ClearTasksAndTodolistsType} from "../common/actions/common.actions";
 
 const initialState: TasksStateType = {}
 
@@ -51,6 +52,9 @@ const slice = createSlice({
             action.payload.todolists.forEach((tl: any) => {
                 state[tl.id] = []
             })
+        })
+        builder.addCase(clearTasksAndTodolists.type, (state, action: PayloadAction<ClearTasksAndTodolistsType>)=>{
+            return {}
         })
     }
 })
@@ -204,4 +208,3 @@ type ActionsType =
     | SetTodolistsActionType
     | ReturnType<typeof setTasksAC>
     | SetStatusActionType
-    | ClearDataActionType

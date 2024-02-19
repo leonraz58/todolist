@@ -4,6 +4,7 @@ import {RequestStatusType, setAppStatusAC, SetErrorActionType, SetStatusActionTy
 import {handleServerAppError} from "../utils/error-utils";
 import {fetchTasksTC} from "./tasks-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {clearTasksAndTodolists} from "../common/actions/common.actions";
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
@@ -42,14 +43,19 @@ const slice = createSlice({
             const index = state.findIndex(tl => tl.id === action.payload.id)
             state[index].entityStatus = action.payload.entityStatus
         },
-        clearDataAC:(state)=>{
+        // clearDataAC:(state)=>{
+        //     return []
+        // }
+    },
+    extraReducers: builder => {
+        builder.addCase(clearTasksAndTodolists, ()=>{
             return []
-        }
+        })
     }
 })
 
 export const todolistsReducer = slice.reducer
-export const {removeTodolistAC, addTodolistAC, changeTodolistTitleAC, changeTodolistFilterAC, setTodolistsAC, changeTodolistEntityStatusAC, clearDataAC} = slice.actions
+export const {removeTodolistAC, addTodolistAC, changeTodolistTitleAC, changeTodolistFilterAC, setTodolistsAC, changeTodolistEntityStatusAC} = slice.actions
 
 // export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsType): Array<TodolistDomainType> => {
 //     switch (action.type) {
@@ -161,7 +167,6 @@ export const changeTodolistTitleTC = (id: string, title: string) => {
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
 export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
-export type ClearDataActionType = ReturnType<typeof clearDataAC>
 
 type ActionsType =
     | ReturnType<typeof removeTodolistAC>
@@ -170,4 +175,3 @@ type ActionsType =
     | ReturnType<typeof changeTodolistFilterAC>
     | ReturnType<typeof setTodolistsAC>
     | ReturnType<typeof changeTodolistEntityStatusAC>
-    | ClearDataActionType
