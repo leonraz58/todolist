@@ -29,6 +29,8 @@ export type AppRootStateType = ReturnType<typeof rootReducer>
 
 export type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>()
+export type AppDispatchType = typeof store.dispatch
+export const useAppDispatch2 = () => useDispatch<AppDispatchType>()
 
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore
