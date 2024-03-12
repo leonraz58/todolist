@@ -1,10 +1,8 @@
-import {todolistsAPI, TodolistType} from "../api/todolist-api";
-import {Dispatch} from "redux";
-import {RequestStatusType, setAppStatusAC, SetErrorActionType, SetStatusActionType} from "./app-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
-import {fetchTasksTC} from "./tasks-reducer";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {clearTasksAndTodolists} from "../common/actions/common.actions";
+import {TodolistType} from "../../api/todolist-api";
+import {RequestStatusType} from "../../state/app-reducer";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {clearTasksAndTodolists} from "../../common/actions/common.actions";
+import {addTodolistTC, changeTodolistTitleTC, fetchTodolistsTC, removeTodolistTC} from "./todolist-actions";
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
@@ -13,7 +11,7 @@ export type TodolistDomainType = TodolistType & {
     entityStatus: RequestStatusType
 }
 
-const slice = createSlice({
+export const slice = createSlice({
     name: 'todolists',
     initialState: [] as Array<TodolistDomainType>,
     reducers: {
@@ -138,31 +136,6 @@ export const {
 
 //thunks
 
-export const fetchTodolistsTC = createAsyncThunk('todolists/fetchTodolists', async (param, thunkAPI) => {
-    thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
-    const res = await todolistsAPI.getTodolists()
-    try {
-        thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-        const todos = res.data
-        todos.forEach((tl) => {
-            thunkAPI.dispatch(fetchTasksTC(tl.id))
-        })
-        return {todolists: res.data}
-    } catch (error) {
-        handleServerNetworkError(error, thunkAPI.dispatch)
-        thunkAPI.rejectWithValue(null)
-    }
-})
-
-export const removeTodolistTC = createAsyncThunk('todolists/removeTodolist', async (param: {
-    todolistId: string
-}, thunkAPI) => {
-    thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
-    thunkAPI.dispatch(changeTodolistEntityStatusAC({id: param.todolistId, entityStatus: 'loading'}))
-    const res = await todolistsAPI.deleteTodolists(param.todolistId)
-    thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-    return {id: param.todolistId}
-})
 // export const fetchTodolistsTC_ = () => {
 //     return (dispatch: any) => { //Dispatch<ActionsType | SetStatusActionType | SetErrorActionType> tofix
 //         dispatch(setAppStatusAC({status: 'loading'}))
@@ -194,12 +167,6 @@ export const removeTodolistTC = createAsyncThunk('todolists/removeTodolist', asy
 //     }
 // }
 
-export const addTodolistTC = createAsyncThunk('todolists/addTodolist', async (param: { title: string }, thunkAPI) => {
-    thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
-    const res = await todolistsAPI.createTodolists(param.title)
-    thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-    return {todolist: res.data.data.item}
-})
 // export const addTodolistTC_ = (title: string) => {
 //     return (dispatch: Dispatch<ActionsType | SetStatusActionType>) => {
 //         dispatch(setAppStatusAC({status: 'loading'}))
@@ -211,13 +178,6 @@ export const addTodolistTC = createAsyncThunk('todolists/addTodolist', async (pa
 //     }
 // }
 
-export const changeTodolistTitleTC = createAsyncThunk('todolists/changeTodolistTitle', async (param: {
-    id: string,
-    title: string
-}, thunkAPI) => {
-    const res = await todolistsAPI.updateTodolists(param.id, param.title)
-    return {id: param.id, title: param.title}
-})
 // export const changeTodolistTitleTC_ = (id: string, title: string) => {
 //     return (dispatch: Dispatch<ActionsType>) => {
 //         todolistsAPI.updateTodolists(id, title)

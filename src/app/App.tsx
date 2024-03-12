@@ -7,16 +7,19 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import {Menu} from '@mui/icons-material';
-import {TaskType} from "./api/todolist-api";
-import {TodolistList} from "./TodolistList";
+import {TaskType} from "../api/todolist-api";
+import {TodolistList} from "../features/TodolistList/TodolistList";
 import {CircularProgress, LinearProgress} from "@mui/material";
-import {ErrorSnackbar} from "./components/ErrorSnackbar";
+import {ErrorSnackbar} from "../components/ErrorSnackbar";
 import {useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "./state/store";
-import {initializeTC, RequestStatusType} from "./state/app-reducer";
+import {AppRootStateType, useAppDispatch} from "../state/store";
+import {initializeTC, RequestStatusType} from "../state/app-reducer";
 import {BrowserRouter, Route} from "react-router-dom";
-import {Login} from "./features/Login/Login";
-import {logoutTC} from "./features/Login/auth-reducer";
+import {Login} from "../features/Login/Login";
+import {logoutTC} from "../features/Login/auth-reducer";
+import {selectIsInitialized, selectStatus} from "./selectors";
+import {authSelectors} from "../features/Login/";
+
 
 
 export type TasksStateType = {
@@ -28,9 +31,9 @@ type PropsType = {
 }
 
 function App({demo = false}: PropsType) {
-    const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
-    const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const status = useSelector<AppRootStateType, RequestStatusType>(selectStatus)
+    const isInitialized = useSelector<AppRootStateType, boolean>(selectIsInitialized)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(authSelectors.selectIsLoggedIn)
     const dispatch = useAppDispatch()
 
     useEffect(()=>{
