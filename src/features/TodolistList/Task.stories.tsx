@@ -2,11 +2,12 @@ import React from 'react'
 import {action} from '@storybook/addon-actions'
 import {Task} from './Task'
 import {TaskPriorities, TaskStatuses} from "../../api/todolist-api";
-
+import {ReduxStoreProviderDecorator} from "./../../stories/decorators/ReduxStoreProviderDecorator"
 
 export default {
     title: 'Task Stories',
-    component: Task
+    component: Task,
+    decorators: [ReduxStoreProviderDecorator]
 }
 
 const removeCallback = action('Remove Button inside Task clicked');
@@ -19,17 +20,17 @@ export const TaskBaseExample = (props: any) => {
             <Task
                 task={{id: '1', status: TaskStatuses.Completed, title: "CSS", todoListId: "todolistId1", description: '',
                     startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}}
-                removeTask={removeCallback}
-                changeTaskTitle={changeTitleCallback}
-                changeTaskStatus={changeStatusCallback}
+                // removeTask={removeCallback}
+                // changeTaskTitle={changeTitleCallback}
+                // changeTaskStatus={changeStatusCallback}
                 todolistId={"todolistId1"}
             />
             <Task
                 task={{id: '2', status: TaskStatuses.New, title: "JS", todoListId: "todolistId1", description: '',
                     startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}}
-                removeTask={removeCallback}
-                changeTaskTitle={changeTitleCallback}
-                changeTaskStatus={changeStatusCallback}
+                // removeTask={removeCallback}
+                // changeTaskTitle={changeTitleCallback}
+                // changeTaskStatus={changeStatusCallback}
                 todolistId={"todolistId2"}
             />
         </div>)

@@ -28,7 +28,7 @@ export const Login = () => {
     //const {loginTC, logoutTC, setIsLoggedInAC} = useActions(authActions)
 
     const isLoggedIn = useSelector<AppRootStateType, boolean>(selectIsLoggedIn)
-
+    
     const formik = useFormik({
         validate: (values) => {
             if (!values.email) {
@@ -63,6 +63,7 @@ export const Login = () => {
     })
 
     if (isLoggedIn) {
+        alert('!!!!')
         return <Redirect to={'/'}/>
     }
 
