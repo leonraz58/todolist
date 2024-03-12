@@ -66,6 +66,11 @@ export const initializeTC = createAsyncThunk('app/initializeApp', async (param, 
             } else {
             }
 })
+
+export const asyncActions = {
+    initializeTC
+}
+
 // export const initializeTC_ = () => (dispatch: Dispatch) => {
 //     authAPI.me()
 //         .then(res => {

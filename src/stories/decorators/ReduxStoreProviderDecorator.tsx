@@ -6,7 +6,7 @@ import {AppRootStateType, RootReducerType} from "../../state/store";
 import {tasksReducer} from "../../features/TodolistList/tasks-reducer";
 import {TaskPriorities, TaskStatuses} from "../../api/todolist-api";
 import {todolistsReducer} from "../../features/TodolistList/todolists-reducer";
-import {appReducer} from "../../state/app-reducer";
+import {appReducer} from "../../app/app-reducer";
 import {thunk} from "redux-thunk";
 import {authReducer} from "../../features/Login/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";

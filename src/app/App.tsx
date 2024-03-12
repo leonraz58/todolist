@@ -8,14 +8,14 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import {Menu} from '@mui/icons-material';
 import {TaskType} from "../api/todolist-api";
-import {TodolistList} from "../features/TodolistList/TodolistList";
+import {TodolistList} from "../features/TodolistList";
 import {CircularProgress, LinearProgress} from "@mui/material";
 import {ErrorSnackbar} from "../components/ErrorSnackbar";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../state/store";
-import {initializeTC, RequestStatusType} from "../state/app-reducer";
+import {asyncActions, RequestStatusType} from "./app-reducer";
 import {BrowserRouter, Route} from "react-router-dom";
-import {Login} from "../features/Login/Login";
+import {Login} from "../features/Login";
 import {logoutTC} from "../features/Login/auth-reducer";
 import {selectIsInitialized, selectStatus} from "./selectors";
 import {authSelectors} from "../features/Login/";
@@ -38,7 +38,7 @@ function App({demo = false}: PropsType) {
 
     useEffect(()=>{
         if (!demo) {
-            dispatch(initializeTC())
+            dispatch(asyncActions.initializeTC())
         }
 
     },[])

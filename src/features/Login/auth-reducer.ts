@@ -1,4 +1,4 @@
-import {setAppErrorAC, setAppStatusAC, SetErrorActionType} from "../../state/app-reducer";
+import {setAppErrorAC, setAppStatusAC, SetErrorActionType} from "../../app/app-reducer";
 import {Dispatch} from "redux";
 import {authAPI, FieldErrorType, LoginParamsType, ResponseType} from "../../api/todolist-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
@@ -6,7 +6,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists} from "../../common/actions/common.actions";
 import {AxiosError} from "axios";
 
-const slice = createSlice({
+export const slice = createSlice({
     name: 'auth',
     initialState: {
         isLoggedIn: false
@@ -69,25 +69,6 @@ export const loginTC = createAsyncThunk<undefined, LoginParamsType, {
         //thunkAPI.dispatch(setAppStatusAC({status: 'failed'}))
     }
 })
-export const loginTC_ = (data: LoginParamsType) => {
-    return (dispatch: Dispatch) => {
-        dispatch(setAppStatusAC({status: 'loading'}))
-        authAPI.login(data)
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    dispatch(setIsLoggedInAC({value: true}))
-                    dispatch(setAppStatusAC({status: 'succeeded'}))
-                } else {
-                    handleServerAppError(res.data, dispatch)
-                }
-            })
-            .catch((error) => {
-                dispatch(setAppErrorAC(error.message))
-                dispatch(setAppStatusAC({status: 'failed'}))
-            })
-    }
-}
-
 export const logoutTC = createAsyncThunk('auth/logout', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
     const res = await authAPI.logout()
@@ -108,29 +89,10 @@ export const logoutTC = createAsyncThunk('auth/logout', async (param, thunkAPI) 
     }
 })
 
-export const logoutTC_ = () => {
-    return (dispatch: Dispatch) => {
-        dispatch(setAppStatusAC({status: 'loading'}))
-        authAPI.logout()
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    dispatch(setIsLoggedInAC({value: false}))
-                    dispatch(setAppStatusAC({status: 'succeeded'}))
-                    //dispatch(clearDataAC())
-                    dispatch(clearTasksAndTodolists({tasks: {}, todolists: []}))
-
-                } else {
-                    handleServerAppError(res.data, dispatch)
-                }
-            })
-            .catch((error) => {
-                dispatch(setAppErrorAC(error.message))
-                dispatch(setAppStatusAC({status: 'failed'}))
-            })
-    }
+export const asyncActions = {
+    loginTC,
+    logoutTC
 }
-
-//type ActionsType = ReturnType<typeof setIsLoggedInAC>
 
 type InitialStateType = {
     isLoggedIn: boolean

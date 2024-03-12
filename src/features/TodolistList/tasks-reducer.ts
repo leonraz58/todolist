@@ -1,7 +1,7 @@
 import {TasksStateType} from '../../app/App';
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists, ClearTasksAndTodolistsType} from "../../common/actions/common.actions";
-import {setAppStatusAC} from "../../state/app-reducer";
+import {setAppStatusAC} from "../../app/app-reducer";
 import {todolistsAPI, UpdateTaskType} from "../../api/todolist-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {AppRootStateType} from "../../state/store";

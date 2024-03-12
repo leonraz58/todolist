@@ -10,9 +10,10 @@ import Button from '@mui/material/Button';
 import {FormikHelpers, useFormik} from "formik";
 import {useSelector} from "react-redux";
 import {loginTC} from "./auth-reducer";
-import {AppRootStateType, useAppDispatch} from "../../state/store";
+import {AppRootStateType, useActions, useAppDispatch} from "../../state/store";
 import {Redirect} from "react-router-dom";
 import {selectIsLoggedIn} from "./selectors";
+import {authActions} from "./index";
 
 type FormValuesType = {
     email: string
@@ -23,6 +24,8 @@ type FormValuesType = {
 export const Login = () => {
 
     const dispatch = useAppDispatch()
+
+    //const {loginTC, logoutTC, setIsLoggedInAC} = useActions(authActions)
 
     const isLoggedIn = useSelector<AppRootStateType, boolean>(selectIsLoggedIn)
 
@@ -56,7 +59,6 @@ export const Login = () => {
                 }
 
             }
-            //alert(JSON.stringify(values));
         },
     })
 
