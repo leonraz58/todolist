@@ -18,9 +18,9 @@ export const slice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(loginTC.fulfilled, (state, action) => {
-            if (action.payload) {
+            //if (action.payload) {
                 state.isLoggedIn = true
-            }
+            //}
         })
         builder.addCase(logoutTC.fulfilled, (state, action) => {
                 state.isLoggedIn = false
