@@ -61,7 +61,7 @@ export const loginTC = createAsyncThunk<undefined, LoginParamsType, {
             handleServerAppError(res.data, thunkAPI.dispatch)
             return thunkAPI.rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
         }
-    } catch (err: any) {
+    } catch (err) {
         const error: AxiosError = err
         handleServerNetworkError(error, thunkAPI.dispatch)
         return thunkAPI.rejectWithValue({errors: [error.message], fieldsErrors: undefined})

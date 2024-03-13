@@ -14,6 +14,7 @@ import {useDispatch} from "react-redux";
 import {authReducer} from "../features/Login/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 import {useMemo} from "react";
+import {FieldErrorType} from "../api/todolist-api";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -51,3 +52,5 @@ export function useActions<T extends ActionCreatorsMapObject<any>>(actions: T){
     },[])
     return boundActions
 }
+
+export type ThunkError = {rejectValue: { errors: Array<string>, fieldsErrors?: Array<FieldErrorType> }}

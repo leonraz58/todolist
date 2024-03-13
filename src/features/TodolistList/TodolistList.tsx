@@ -10,7 +10,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {TaskStatuses} from "../../api/todolist-api";
 import Grid from "@mui/material/Grid";
-import {AddItemForm} from "../../components/AddItemForm";
+import {AddItemForm, AddItemFormSubmitHelperType} from "../../components/AddItemForm";
 import Paper from "@mui/material/Paper";
 import {TasksStateType} from "../../app/App";
 import {Redirect} from "react-router-dom";
@@ -33,12 +33,26 @@ export const TodolistList: React.FC<PropsType> = ({demo = false}) => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const {updateTaskTC, removeTaskTC, addTaskTC} = useActions(taskActions)
     const {addTodolistTC, removeTodolistTC, fetchTodolistsTC, changeTodolistTitleTC, changeTodolistFilterAC, changeTodolistEntityStatusAC} = useActions(todolistsActions)
-
-
     type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>
-
     const useAppDispatch = () => useDispatch<AppThunkDispatch>()
     const dispatch = useAppDispatch()
+
+    const addTodolistCallback = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
+        let thunk = todolistsActions.addTodolistTC(title)
+        const resultAction = await dispatch(thunk)
+        if (todolistsActions.addTodolistTC.rejected.match(resultAction)){
+            if (resultAction.payload?.errors?.length) {
+                const errorMessage = resultAction.payload?.errors[0]
+                helper.setError(errorMessage)
+            } else {
+                helper.setError("some error occured")
+            }
+        } else {
+            helper.setTitle('')
+        }
+
+        //addTodolistTC(title)
+    },[] )
 
     // const removeTask = useCallback(function (taskId: string, todolistId: string) {
     //     // const thunk = removeTaskTC({taskId, todolistId});
@@ -78,7 +92,7 @@ export const TodolistList: React.FC<PropsType> = ({demo = false}) => {
 
     return (<>
         <Grid container style={{padding: '20px'}}>
-            <AddItemForm addItem={addTodolistTC} disabled={todolists.length === 10}/>
+            <AddItemForm addItem={addTodolistCallback} disabled={todolists.length === 10}/>
         </Grid>
         <Grid container spacing={3} style={{flexWrap: 'nowrap', overflowX: 'scroll'}}>
             {

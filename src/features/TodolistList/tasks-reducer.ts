@@ -2,10 +2,11 @@ import {TasksStateType} from '../../app/App';
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists, ClearTasksAndTodolistsType} from "../../common/actions/common.actions";
 import {setAppStatusAC} from "../../app/app-reducer";
-import {todolistsAPI, UpdateTaskType} from "../../api/todolist-api";
-import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {AppRootStateType} from "../../state/store";
+import {FieldErrorType, TaskType, todolistsAPI, UpdateTaskType} from "../../api/todolist-api";
+import {handleAsyncServerNetworkError, handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {AppRootStateType, ThunkError} from "../../state/store";
 import {asyncActions as todolistsAsyncActions} from "./todolists-reducer";
+import {AxiosError} from "axios";
 
 
 const initialState: TasksStateType = {}
@@ -45,7 +46,11 @@ export const removeTaskTC =
         return {taskId: param.taskId, todolistId: param.todolistId}
     })
 export const addTaskTC =
-    createAsyncThunk('tasks/addTask', async (param: { title: string, todolistId: string }, thunkAPI) => {
+    createAsyncThunk<
+        TaskType,
+        { title: string, todolistId: string },
+        ThunkError
+    >('tasks/addTask', async (param, thunkAPI) => {
         thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
         const res = await todolistsAPI.createTask(param.todolistId, param.title)
         try {
@@ -54,12 +59,13 @@ export const addTaskTC =
                 thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
                 return task
             } else {
-                handleServerAppError(res.data, thunkAPI.dispatch)
-                return thunkAPI.rejectWithValue(null)
+                handleServerAppError(res.data, thunkAPI.dispatch, false)
+                return thunkAPI.rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
             }
-        } catch (error) {
-            handleServerNetworkError(error, thunkAPI.dispatch)
-            return thunkAPI.rejectWithValue(null)
+        } catch (err) {
+            const error: AxiosError = err
+            handleServerNetworkError(error, thunkAPI.dispatch, false)
+            return thunkAPI.rejectWithValue({errors: [error.message], fieldsErrors: undefined})
         }
     })
 export const updateTaskTC =
@@ -93,8 +99,8 @@ export const updateTaskTC =
                 return thunkAPI.rejectWithValue(null)
             }
         } catch (error) {
-            handleServerNetworkError(error, thunkAPI.dispatch)
-            return thunkAPI.rejectWithValue(null)
+
+            return handleAsyncServerNetworkError(error, thunkAPI, false)
         }
     })
 

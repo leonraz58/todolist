@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react'
-import {AddItemForm} from '../../components/AddItemForm'
+import {AddItemForm, AddItemFormSubmitHelperType} from '../../components/AddItemForm'
 import {EditableSpan} from '../../components/EditableSpan'
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
@@ -53,8 +53,21 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
 
 
 
-    const addTask = useCallback((title: string) => {
-        addTaskTC({title: title, todolistId: props.todolist.id})
+    const addTask = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
+        let thunk = taskActions.addTaskTC({title: title, todolistId: props.todolist.id})
+        const resultAction = await dispatch(thunk)
+        if (taskActions.addTaskTC.rejected.match(resultAction)){
+            if (resultAction.payload?.errors?.length) {
+                const errorMessage = resultAction.payload?.errors[0]
+                helper.setError(errorMessage)
+            } else {
+                helper.setError("some error occured")
+            }
+        } else {
+            helper.setTitle('')
+        }
+
+
     }, [props.todolist.id])
 
     const removeTodolist = () => {
@@ -93,10 +106,10 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
 
 
     return <Paper style={{padding: '10px', position: "relative"}}>
-        <IconButton onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}
+        <IconButton size={'small'} onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}
                     style={{position: 'absolute', right: '5px', top: '5px'}}
         >
-            <Delete/>
+            <Delete fontSize={'small'}/>
         </IconButton>
         <h3><EditableSpan value={props.todolist.title} onChange={changeTodolistTitle}/>
 
