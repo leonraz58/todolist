@@ -80,13 +80,13 @@ export const TodolistList: React.FC<PropsType> = ({demo = false}) => {
         <Grid container style={{padding: '20px'}}>
             <AddItemForm addItem={addTodolistTC} disabled={todolists.length === 10}/>
         </Grid>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{flexWrap: 'nowrap', overflowX: 'scroll'}}>
             {
                 todolists.map(tl => {
                     let allTodolistTasks = tasks[tl.id];
 
                     return <Grid item key={tl.id}>
-                        <Paper style={{padding: '10px'}}>
+                        <div style={{width: "300px"}}>
                             <Todolist
                                 todolist={tl}
                                 tasks={allTodolistTasks}
@@ -99,7 +99,7 @@ export const TodolistList: React.FC<PropsType> = ({demo = false}) => {
                                 //changeTodolistTitle={changeTodolistTitle}
                                 demo={demo}
                             />
-                        </Paper>
+                        </div>
                     </Grid>
                 })
             }
