@@ -9,7 +9,7 @@ export type InitialStateType = {
     isInitialized: boolean
 }
 
-const slice = createSlice({
+export const slice = createSlice({
     name: 'auth',
     initialState: {
         status: 'loading',

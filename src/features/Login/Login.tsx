@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import {FormikHelpers, useFormik} from "formik";
 import {useSelector} from "react-redux";
 import {loginTC} from "./auth-reducer";
-import {AppRootStateType, useActions, useAppDispatch} from "../../state/store";
+import {AppRootStateType, useActions, useAppDispatch} from "../../app/store";
 import {Redirect} from "react-router-dom";
 import {selectIsLoggedIn} from "./selectors";
 import {authActions} from "./index";

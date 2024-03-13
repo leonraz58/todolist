@@ -12,7 +12,7 @@ import {TodolistList} from "../features/TodolistList";
 import {CircularProgress, LinearProgress} from "@mui/material";
 import {ErrorSnackbar} from "../components/ErrorSnackbar";
 import {useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "../state/store";
+import {AppRootStateType, useAppDispatch} from "./store";
 import {asyncActions, RequestStatusType} from "./app-reducer";
 import {BrowserRouter, Route} from "react-router-dom";
 import {Login} from "../features/Login";

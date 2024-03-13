@@ -3,13 +3,14 @@ import {
     fetchTasksTC, removeTaskTC,
 
 
-    tasksReducer, updateTaskTC
+    updateTaskTC
 } from './tasks-reducer';
 
 import {TaskPriorities, TaskStatuses} from "../../api/todolist-api";
 
 import {TasksStateType} from "../../app/App";
 import {fetchTodolistsTC, removeTodolistTC} from "./todolists-reducer";
+import {tasksReducer} from "./index";
 
 
 

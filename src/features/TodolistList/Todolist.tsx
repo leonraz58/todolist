@@ -9,9 +9,9 @@ import {TaskStatuses, TaskType} from "../../api/todolist-api";
 import {FilterValuesType, TodolistDomainType} from "./todolists-reducer";
 import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
-import {AppRootStateType, useActions} from "../../state/store";
+import {AppRootStateType, useActions} from "../../app/store";
 import {AnyAction} from "redux";
-import {taskActions, todolistsActions} from "./index";
+import {tasksActions, todolistsActions} from "./index";
 import { Paper } from '@mui/material';
 
 type PropsType = {
@@ -38,7 +38,7 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
         changeTodolistFilterAC,
         changeTodolistEntityStatusAC
     } = useActions(todolistsActions)
-    const {addTaskTC, updateTaskTC, removeTaskTC} = useActions(taskActions)
+    const {addTaskTC, updateTaskTC, removeTaskTC} = useActions(tasksActions)
 
     type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>
     const useAppDispatch = () => useDispatch<AppThunkDispatch>()
@@ -54,9 +54,9 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
 
 
     const addTask = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
-        let thunk = taskActions.addTaskTC({title: title, todolistId: props.todolist.id})
+        let thunk = tasksActions.addTaskTC({title: title, todolistId: props.todolist.id})
         const resultAction = await dispatch(thunk)
-        if (taskActions.addTaskTC.rejected.match(resultAction)){
+        if (tasksActions.addTaskTC.rejected.match(resultAction)){
             if (resultAction.payload?.errors?.length) {
                 const errorMessage = resultAction.payload?.errors[0]
                 helper.setError(errorMessage)

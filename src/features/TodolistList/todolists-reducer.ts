@@ -1,5 +1,5 @@
-import {FieldErrorType, todolistsAPI, TodolistType} from "../../api/todolist-api";
-import {RequestStatusType, setAppStatusAC} from "../../app/app-reducer";
+import {todolistsAPI, TodolistType} from "../../api/todolist-api";
+import { appActions} from "../../app";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists} from "../../common/actions/common.actions";
 import {
@@ -9,8 +9,8 @@ import {
     handleServerNetworkError
 } from "../../utils/error-utils";
 import {fetchTasksTC} from "./tasks-reducer";
-import {AxiosError} from "axios";
-import {ThunkError} from "../../state/store";
+import {ThunkError} from "../../app/store";
+import {RequestStatusType} from "../../app/app-reducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
@@ -19,6 +19,7 @@ export type TodolistDomainType = TodolistType & {
     entityStatus: RequestStatusType
 }
 
+const {setAppStatusAC} = appActions
 export const fetchTodolistsTC = createAsyncThunk('todolists/fetchTodolists', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
     const res = await todolistsAPI.getTodolists()
@@ -157,7 +158,7 @@ export const slice = createSlice({
     }
 })
 
-export const todolistsReducer = slice.reducer
+//export const todolistsReducer = slice.reducer
 export const {
     //removeTodolistAC,
     //addTodolistAC,

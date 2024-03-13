@@ -1,10 +1,10 @@
 import {TasksStateType} from '../../app/App';
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists, ClearTasksAndTodolistsType} from "../../common/actions/common.actions";
-import {setAppStatusAC} from "../../app/app-reducer";
-import {FieldErrorType, TaskType, todolistsAPI, UpdateTaskType} from "../../api/todolist-api";
+import {appActions} from "../../app/";
+import {TaskType, todolistsAPI, UpdateTaskType} from "../../api/todolist-api";
 import {handleAsyncServerNetworkError, handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {AppRootStateType, ThunkError} from "../../state/store";
+import {AppRootStateType, ThunkError} from "../../app/store";
 import {asyncActions as todolistsAsyncActions} from "./todolists-reducer";
 import {AxiosError} from "axios";
 
@@ -13,10 +13,10 @@ const initialState: TasksStateType = {}
 
 
 export const fetchTasksTC = createAsyncThunk('tasks/fetchTasks', async (todolistId: string, thunkAPI) => {
-    thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
+    thunkAPI.dispatch(appActions.setAppStatusAC({status: 'loading'}))
     const res = await todolistsAPI.getTasks(todolistId)
     const tasks = res.data.items
-    thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+    thunkAPI.dispatch(appActions.setAppStatusAC({status: 'succeeded'}))
     return {tasks, todolistId}
 })
 //thunks
@@ -51,12 +51,12 @@ export const addTaskTC =
         { title: string, todolistId: string },
         ThunkError
     >('tasks/addTask', async (param, thunkAPI) => {
-        thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
+        thunkAPI.dispatch(appActions.setAppStatusAC({status: 'loading'}))
         const res = await todolistsAPI.createTask(param.todolistId, param.title)
         try {
             if (res.data.resultCode === 0) {
                 const task = res.data.data.item
-                thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+                thunkAPI.dispatch(appActions.setAppStatusAC({status: 'succeeded'}))
                 return task
             } else {
                 handleServerAppError(res.data, thunkAPI.dispatch, false)
@@ -108,7 +108,7 @@ export const asyncActions = {
     fetchTasksTC, removeTaskTC, addTaskTC, updateTaskTC
 }
 
-const slice = createSlice({
+export const slice = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
@@ -176,7 +176,7 @@ const slice = createSlice({
         })
     }
 })
-export const tasksReducer = slice.reducer
+//export const tasksReducer = slice.reducer
 
 //export const {
 //removeTaskAC,

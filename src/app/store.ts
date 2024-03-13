@@ -1,5 +1,5 @@
-import { tasksReducer } from '../features/TodolistList/tasks-reducer';
-import { todolistsReducer } from '../features/TodolistList/todolists-reducer';
+import { tasksReducer } from '../features/TodolistList/';
+import { todolistsReducer } from '../features/TodolistList/';
 import {
     ActionCreatorsMapObject,
     AnyAction,
@@ -8,10 +8,10 @@ import {
     combineReducers,
     createStore
 } from 'redux';
-import {thunk, ThunkDispatch} from "redux-thunk";
-import {appReducer} from "../app/app-reducer";
+import {ThunkDispatch} from "redux-thunk";
+import {appReducer} from "./app-reducer";
 import {useDispatch} from "react-redux";
-import {authReducer} from "../features/Login/auth-reducer";
+import {authReducer} from "../features/Login";
 import {configureStore} from "@reduxjs/toolkit";
 import {useMemo} from "react";
 import {FieldErrorType} from "../api/todolist-api";

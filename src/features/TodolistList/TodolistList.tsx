@@ -5,7 +5,7 @@ import {
     TodolistDomainType
 } from "./todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType, useActions} from "../../state/store";
+import {AppRootStateType, useActions} from "../../app/store";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {TaskStatuses} from "../../api/todolist-api";
@@ -15,7 +15,7 @@ import Paper from "@mui/material/Paper";
 import {TasksStateType} from "../../app/App";
 import {Redirect} from "react-router-dom";
 import {Todolist} from "./Todolist";
-import {taskActions, todolistsActions} from "./index";
+import {tasksActions, todolistsActions} from "./index";
 
 
 type PropsType = {
@@ -31,7 +31,7 @@ export const TodolistList: React.FC<PropsType> = ({demo = false}) => {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const {updateTaskTC, removeTaskTC, addTaskTC} = useActions(taskActions)
+    const {updateTaskTC, removeTaskTC, addTaskTC} = useActions(tasksActions)
     const {addTodolistTC, removeTodolistTC, fetchTodolistsTC, changeTodolistTitleTC, changeTodolistFilterAC, changeTodolistEntityStatusAC} = useActions(todolistsActions)
     type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>
     const useAppDispatch = () => useDispatch<AppThunkDispatch>()
