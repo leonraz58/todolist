@@ -5,8 +5,8 @@ import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 
 import {TaskStatuses, TaskType} from "../../api/todolist-api";
-import { useActions } from '../../app/store';
 import {tasksActions, todolistsActions } from '.';
+import {useActions} from "../../utils/redux-utils";
 
 type TaskPropsType = {
     task: TaskType

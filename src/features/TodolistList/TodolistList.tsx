@@ -5,7 +5,7 @@ import {
     TodolistDomainType
 } from "./todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType, useActions} from "../../app/store";
+import {AppRootStateType} from "../../app/store";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {TaskStatuses} from "../../api/todolist-api";
@@ -16,6 +16,7 @@ import {TasksStateType} from "../../app/App";
 import {Redirect} from "react-router-dom";
 import {Todolist} from "./Todolist";
 import {tasksActions, todolistsActions} from "./index";
+import {useActions} from "../../utils/redux-utils";
 
 
 type PropsType = {

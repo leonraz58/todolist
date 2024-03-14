@@ -9,10 +9,11 @@ import {TaskStatuses, TaskType} from "../../api/todolist-api";
 import {FilterValuesType, TodolistDomainType} from "./todolists-reducer";
 import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
-import {AppRootStateType, useActions} from "../../app/store";
+import {AppRootStateType} from "../../app/store";
 import {AnyAction} from "redux";
 import {tasksActions, todolistsActions} from "./index";
 import { Paper } from '@mui/material';
+import {useActions} from "../../utils/redux-utils";
 
 type PropsType = {
     todolist: TodolistDomainType
