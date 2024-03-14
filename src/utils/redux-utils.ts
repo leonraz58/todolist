@@ -1,8 +1,8 @@
 import {ActionCreatorsMapObject, AnyAction, bindActionCreators} from "redux";
 import {useMemo} from "react";
 import {useDispatch} from "react-redux";
-import {AppRootStateType, store} from "../app/store";
 import {ThunkDispatch} from "redux-thunk";
+import {AppDispatchType, AppRootStateType} from "./types";
 
 export type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>()
@@ -16,4 +16,3 @@ export function useActions<T extends ActionCreatorsMapObject<any>>(actions: T) {
     return boundActions
 }
 
-export type AppDispatchType = typeof store.dispatch

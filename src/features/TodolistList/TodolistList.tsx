@@ -5,10 +5,8 @@ import {
     TodolistDomainType
 } from "./todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../app/store";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
-import {TaskStatuses} from "../../api/todolist-api";
 import Grid from "@mui/material/Grid";
 import {AddItemForm, AddItemFormSubmitHelperType} from "../../components/AddItemForm";
 import Paper from "@mui/material/Paper";
@@ -17,6 +15,8 @@ import {Redirect} from "react-router-dom";
 import {Todolist} from "./Todolist";
 import {tasksActions, todolistsActions} from "./index";
 import {useActions} from "../../utils/redux-utils";
+import {AppRootStateType} from "../../utils/types";
+import {TaskStatuses} from "../../api/types";
 
 
 type PropsType = {

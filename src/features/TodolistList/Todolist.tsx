@@ -5,15 +5,15 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import {Delete} from '@mui/icons-material';
 import {Task} from './Task'
-import {TaskStatuses, TaskType} from "../../api/todolist-api";
 import {FilterValuesType, TodolistDomainType} from "./todolists-reducer";
 import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
-import {AppRootStateType} from "../../app/store";
 import {AnyAction} from "redux";
 import {tasksActions, todolistsActions} from "./index";
 import { Paper } from '@mui/material';
 import {useActions} from "../../utils/redux-utils";
+import {AppRootStateType} from "../../utils/types";
+import {TaskStatuses, TaskType} from "../../api/types";
 
 type PropsType = {
     todolist: TodolistDomainType

@@ -2,14 +2,14 @@ import React from 'react'
 import {Provider} from 'react-redux'
 import {applyMiddleware, combineReducers, createStore} from 'redux'
 import {v1} from 'uuid'
-import {AppRootStateType, RootReducerType} from "../../app/store";
 import {tasksReducer} from "../../features/TodolistList";
-import {TaskPriorities, TaskStatuses} from "../../api/todolist-api";
 import {todolistsReducer} from "../../features/TodolistList";
-import {appReducer} from "../../app/app-reducer";
+import {appReducer} from "../../features/Application/app-reducer";
 import {authReducer} from "../../features/Login";
 import {configureStore} from "@reduxjs/toolkit";
 import {HashRouter, MemoryRouter} from "react-router-dom";
+import {AppRootStateType, RootReducerType} from "../../utils/types";
+import {TaskPriorities, TaskStatuses} from "../../api/types";
 
 const rootReducer: RootReducerType = combineReducers({
     tasks: tasksReducer,

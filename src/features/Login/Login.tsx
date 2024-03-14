@@ -10,11 +10,11 @@ import Button from '@mui/material/Button';
 import {FormikHelpers, useFormik} from "formik";
 import {useSelector} from "react-redux";
 import {loginTC} from "./auth-reducer";
-import {AppRootStateType} from "../../app/store";
 import {Redirect} from "react-router-dom";
 import {selectIsLoggedIn} from "./selectors";
 import {authActions} from "./index";
 import {useActions, useAppDispatch} from "../../utils/redux-utils";
+import {AppRootStateType} from "../../utils/types";
 
 type FormValuesType = {
     email: string

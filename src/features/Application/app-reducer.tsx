@@ -1,6 +1,5 @@
-import {Dispatch} from "redux";
-import {authAPI} from "../api/todolist-api";
-import {setIsLoggedInAC} from "../features/Login/auth-reducer";
+import {authAPI} from "../../api/todolist-api";
+import {authActions} from "../Login/";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type InitialStateType = {
@@ -62,7 +61,7 @@ export const {setAppErrorAC, setAppStatusAC,
 export const initializeTC = createAsyncThunk('app/initializeApp', async (param, thunkAPI) => {
     const res = await authAPI.me()
             if (res.data.resultCode === 0) {
-                thunkAPI.dispatch(setIsLoggedInAC({value: true}))
+                thunkAPI.dispatch(authActions.setIsLoggedInAC({value: true}))
             } else {
             }
 })
