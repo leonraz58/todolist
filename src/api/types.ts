@@ -4,14 +4,14 @@ export type LoginParamsType = {
     rememberMe: boolean
     captcha?: string
 }
-//types
+// types
 export type TodolistType = {
     id: string
     title: string
     addedDate: string
     order: number
 }
-export type FieldErrorType = { field: string, error: string }
+export type FieldErrorType = { field: string; error: string }
 export type ResponseType<D = {}> = {
     resultCode: number
     messages: Array<string>
@@ -29,7 +29,7 @@ export enum TaskStatuses {
 export enum TaskPriorities {
     Low = 0,
     Middle = 1,
-    High = 2,
+    Hi = 2,
     Urgently = 3,
     Later = 4
 }
@@ -46,11 +46,11 @@ export type TaskType = {
     order: number
     addedDate: string
 }
-export type UpdateTaskType = {
+export type UpdateTaskModelType = {
     title: string
     description: string
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
 }
